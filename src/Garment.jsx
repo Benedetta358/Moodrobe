@@ -10,6 +10,21 @@ export default function Garment({ item, className = "" }) {
         alt={item.name}
       />
     );
+  if (item.demo && /^demo-\d+$/.test(item.id)) {
+    const n = Number(item.id.split("-")[1]);
+    return (
+      <div
+        role="img"
+        aria-label={item.name}
+        className={`garment sample-photo ${className}`}
+        style={{
+          backgroundImage: "url(/images/sample-wardrobe.png)",
+          backgroundSize: "400% 400%",
+          backgroundPosition: `${((n % 4) * 100) / 3}% ${(Math.floor(n / 4) * 100) / 3}%`,
+        }}
+      />
+    );
+  }
   const c = item.hex || "#ccc",
     shape = item.shape;
   const paths = {

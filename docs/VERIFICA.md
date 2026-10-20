@@ -1,22 +1,32 @@
-# Verifica della consegna — 20 ottobre 2026
+# Release verification / 20 October 2026
 
-- `npm test`: 11 test superati, 0 fallimenti.
-- `npm run test:e2e`: 10 scenari superati, 0 fallimenti (ultimo giro: 38,8 secondi).
-- `npm run build`: build Vite completata, exit code 0.
-- Audit dipendenze npm: 0 vulnerabilità segnalate alla verifica.
+- `npm test`: 19 passed, zero failures.
+- `npm run test:e2e`: 7 browser scenarios passed, zero failures (23.4 seconds in the final run).
+- `npm run build`: production build and static-asset size checks passed.
+- `node scripts/verify-production.mjs`: actual neural inference passed against the final production build served on port 5180.
+- `npm audit`: zero reported vulnerabilities at verification.
 
-## Copertura
+## Actual AI evidence
 
-Motore: composizione di look completi solo da capi disponibili, guardaroba vuoto/incompleto, abiti, strati in base alla temperatura, pesi di feedback, determinismo senza mutazioni, inclusione del capo da riscoprire, date, RMSSD e metriche senza utilizzi inventati.
+The browser downloaded the pinned quantised model, ran the ONNX encoder locally and produced three neural edits from owned candidate combinations. An explicit feedback vote stored a finite 384-value vector; the next run trained a preference head and exposed its internal training loss.
 
-Browser: check-in, spiegazione look, salvataggio, calendario, outfit indossato, persistenza dopo reload, aggiunta/modifica/rimozione capi, ricerca, disponibilità, backup invalido, cancellazione, confronto A/B con consenso, CSV, tastiera e ripristino focus, upload foto, persistenza immagine in IndexedDB, backup con foto, diniego dei permessi, RR effimeri.
+The production smoke test used two contrasting briefs with the same sample wardrobe and returned different leading edits:
 
-Un test di regressione con stream sintetici ha riprodotto e verificato la correzione della chiusura simultanea di camera e microfono: entrambi i track risultano `ended` dopo la chiusura del dialogo.
+- Formal: black midi dress, ivory sneakers, sand tailored blazer, silk scarf.
+- Casual: blue cotton shirt, indigo straight jeans, ivory sneakers, sage cardigan.
 
-Audit Axe su home desktop/mobile, guardaroba, aggiunta capo, seconda vita, progetto, impostazioni, check-in, segnali e brief inglese: nessuna violazione rilevata nel set di regole WCAG 2 A/AA e 2.1 AA eseguito. Un audit automatico non equivale a una certificazione completa di accessibilità.
+These are measured outputs, not curated results or proof that the recommendations are optimal. No external network requests and no page errors were observed during that production inference test. Runtime and model requests stayed on the application's own origin. The unused large asyncify fallback binary was removed from the final build; real inference succeeded using the explicit standard runtime under `/ort/`.
 
-Screenshot ispezionati su desktop 1440 px e mobile 390 px. Nessun overflow orizzontale rilevato alle dimensioni testate; brief inglese verificato anche a 1280 px.
+## Other coverage
 
-## Limiti della verifica
+Complete owned outfit structure, required rediscovery item, missing wardrobe slots, deterministic starter rules, feedback scores, unavailable pieces, dates, RMSSD, no invented utilisation, preference-model learning, malformed vector rejection, diversity, legacy Italian-data migration, validated backup import.
 
-Esecuzione su Google Chrome headless su macOS. Non sono state eseguite prove su hardware reale di smartwatch, camera e microfono, né su Safari/iPhone fisico. La disponibilità del meteo dipende da rete, fornitore e permessi di geolocalizzazione; il percorso manuale rimane disponibile. Non è stato eseguito un pilot con partecipanti e non è stato validato alcun classificatore emotivo. Nessun deployment Vercel è stato effettuato nell’account dell’utente.
+English daily flow, photos and descriptions, search, availability, saved edits, planned outfits, wear diary, persistence after reload, JSON export/import, rejection of invalid backup, deletion, optional camera denial, ephemeral RR input, camera and microphone track cleanup, neural-vs-rules local comparison and CSV.
+
+Axe checks using WCAG 2 A/AA and 2.1 AA rules found no violations on desktop/mobile home, wardrobe, add-piece dialog, rewear, AI lab, privacy, check-in and optional-signal tools. This is an automated audit, not a comprehensive accessibility certification.
+
+Desktop 1440 px and mobile 390 px screenshots were inspected. No horizontal overflow was detected. The mobile rewear banner was checked separately after its layout correction (content width approximately 263 px, banner height approximately 223 px at a 390 px viewport).
+
+## Verification limits
+
+Browser execution used headless Chrome on macOS. No physical iPhone/Safari, wearable, real camera or real microphone hardware validation was completed. Synthetic streams verified the media-lifecycle regression. The optional weather service depends on permissions, connectivity and supplier availability. No participant pilot or psychological-effectiveness validation has taken place. No emotion classifier or clothing-image analysis is claimed. Vercel account deployment has not been performed.

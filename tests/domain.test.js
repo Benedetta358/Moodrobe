@@ -9,7 +9,7 @@ import {
 } from "../src/domain.js";
 const ctx = {
   mood: "calm",
-  occasion: "Lavoro / studio",
+  occasion: "Work / campus",
   temp: 16,
   energy: 30,
   stress: 65,
@@ -21,11 +21,11 @@ test("three complete, unique looks contain only owned available garments", () =>
   assert.equal(results.length, 3);
   assert.equal(new Set(results.map((l) => l.id)).size, 3);
   for (const l of results) {
-    assert(l.items.some((i) => i.category === "Scarpe"));
+    assert(l.items.some((i) => i.category === "Shoes"));
     assert(
-      l.items.some((i) => i.category === "Abiti") ||
-        (l.items.some((i) => i.category === "Top") &&
-          l.items.some((i) => ["Pantaloni", "Gonne"].includes(i.category))),
+      l.items.some((i) => i.category === "Dresses") ||
+        (l.items.some((i) => i.category === "Tops") &&
+          l.items.some((i) => ["Trousers", "Skirts"].includes(i.category))),
     );
     assert(
       l.items.every((i) => wardrobe.some((g) => g.id === i.id) && i.available),
@@ -36,14 +36,14 @@ test("empty and incomplete wardrobes produce no fabricated clothing", () => {
   assert.deepEqual(recommend([], ctx), []);
   assert.deepEqual(
     recommend(
-      seedWardrobe().filter((i) => i.category === "Top"),
+      seedWardrobe().filter((i) => i.category === "Tops"),
       ctx,
     ),
     [],
   );
   assert.deepEqual(
     recommend(
-      seedWardrobe().filter((i) => i.category !== "Scarpe"),
+      seedWardrobe().filter((i) => i.category !== "Shoes"),
       ctx,
     ),
     [],
@@ -51,7 +51,7 @@ test("empty and incomplete wardrobes produce no fabricated clothing", () => {
 });
 test("a dress and shoes are enough to build one real look", () => {
   const a = seedWardrobe().filter(
-    (i) => i.category === "Abiti" || i.id === "demo-10",
+    (i) => i.category === "Dresses" || i.id === "demo-10",
   );
   assert.equal(recommend(a, ctx).length, 1);
   assert.equal(recommend(a, ctx)[0].items.length, 2);
@@ -60,12 +60,12 @@ test("cold weather adds a layer; warm weather does not", () => {
   const a = seedWardrobe();
   assert(
     recommend(a, { ...ctx, temp: 10 }).every((l) =>
-      l.items.some((i) => i.category === "Capispalla"),
+      l.items.some((i) => i.category === "Layers"),
     ),
   );
   assert(
     recommend(a, { ...ctx, temp: 28 }).every(
-      (l) => !l.items.some((i) => i.category === "Capispalla"),
+      (l) => !l.items.some((i) => i.category === "Layers"),
     ),
   );
 });

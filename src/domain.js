@@ -1,63 +1,64 @@
 export const categories = [
-  "Tutti",
-  "Top",
-  "Pantaloni",
-  "Gonne",
-  "Abiti",
-  "Capispalla",
-  "Scarpe",
-  "Accessori",
+  "All",
+  "Tops",
+  "Trousers",
+  "Skirts",
+  "Dresses",
+  "Layers",
+  "Shoes",
+  "Accessories",
 ];
 export const moods = [
   {
     id: "calm",
-    label: "In cerca di calma",
-    short: "Calma",
+    label: "Seeking calm",
+    short: "Calm",
     color: "#8eaa9a",
     energy: 30,
     valence: 55,
     stress: 65,
-    description: "Linee morbide, colori che ti fanno respirare.",
+    description: "Soft shapes and a little breathing room.",
   },
   {
     id: "bright",
-    label: "Piena di energia",
-    short: "Energia",
+    label: "Feeling energised",
+    short: "Energy",
     color: "#d3a252",
     energy: 85,
     valence: 85,
     stress: 20,
-    description: "Un accento luminoso per seguire la tua energia.",
+    description: "A brighter accent to meet your energy.",
   },
   {
     id: "confident",
-    label: "Pronta a brillare",
-    short: "Sicurezza",
+    label: "Feeling confident",
+    short: "Confidence",
     color: "#a66758",
     energy: 70,
     valence: 80,
     stress: 30,
-    description: "Strutture decise, dettagli che senti tuoi.",
+    description: "Intentional structure. Details that feel like you.",
   },
   {
     id: "soft",
-    label: "Un po’ sottotono",
+    label: "Keeping it gentle",
     short: "Comfort",
     color: "#a59ab2",
     energy: 25,
     valence: 30,
     stress: 45,
-    description: "Il comfort di un capo familiare, senza rinunciare a te.",
+    description:
+      "The comfort of something familiar, with your own point of view.",
   },
 ];
 export function seedWardrobe() {
   const data = [
-    ["Maglia in cotone", "Top", "cream", "#e8dfcc", "knit", 2, 16, "all", 1],
-    ["Camicia azzurra", "Top", "blue", "#a7bdc9", "shirt", 10, 9, "all", 2],
-    ["Top terracotta", "Top", "rust", "#b9765d", "tee", 67, 3, "summer", 1],
+    ["Cotton crewneck", "Tops", "cream", "#e8dfcc", "knit", 2, 16, "all", 1],
+    ["Blue cotton shirt", "Tops", "blue", "#a7bdc9", "shirt", 10, 9, "all", 2],
+    ["Terracotta tee", "Tops", "rust", "#b9765d", "tee", 67, 3, "summer", 1],
     [
-      "Blazer sabbia",
-      "Capispalla",
+      "Sand tailored blazer",
+      "Layers",
       "beige",
       "#bba78b",
       "blazer",
@@ -67,8 +68,8 @@ export function seedWardrobe() {
       3,
     ],
     [
-      "Cardigan salvia",
-      "Capispalla",
+      "Sage cardigan",
+      "Layers",
       "sage",
       "#9ca98c",
       "cardigan",
@@ -78,8 +79,8 @@ export function seedWardrobe() {
       1,
     ],
     [
-      "Cappotto cacao",
-      "Capispalla",
+      "Chocolate wool coat",
+      "Layers",
       "brown",
       "#78604d",
       "coat",
@@ -89,8 +90,8 @@ export function seedWardrobe() {
       3,
     ],
     [
-      "Pantaloni sartoriali",
-      "Pantaloni",
+      "Tailored trousers",
+      "Trousers",
       "beige",
       "#c7b99f",
       "pants",
@@ -99,12 +100,42 @@ export function seedWardrobe() {
       "all",
       3,
     ],
-    ["Jeans indaco", "Pantaloni", "blue", "#536b80", "jeans", 6, 21, "all", 1],
-    ["Gonna a pieghe", "Gonne", "brown", "#9d876c", "skirt", 83, 1, "all", 2],
-    ["Abito nero", "Abiti", "black", "#363634", "dress", 31, 5, "all", 3],
     [
-      "Sneakers avorio",
-      "Scarpe",
+      "Indigo straight jeans",
+      "Trousers",
+      "blue",
+      "#536b80",
+      "jeans",
+      6,
+      21,
+      "all",
+      1,
+    ],
+    [
+      "Pleated midi skirt",
+      "Skirts",
+      "brown",
+      "#9d876c",
+      "skirt",
+      83,
+      1,
+      "all",
+      2,
+    ],
+    [
+      "Black midi dress",
+      "Dresses",
+      "black",
+      "#363634",
+      "dress",
+      31,
+      5,
+      "all",
+      3,
+    ],
+    [
+      "Ivory sneakers",
+      "Shoes",
       "cream",
       "#e5e0d2",
       "sneakers",
@@ -114,8 +145,8 @@ export function seedWardrobe() {
       1,
     ],
     [
-      "Mocassini cuoio",
-      "Scarpe",
+      "Leather loafers",
+      "Shoes",
       "brown",
       "#895d40",
       "loafers",
@@ -124,10 +155,20 @@ export function seedWardrobe() {
       "all",
       3,
     ],
-    ["Ballerine nere", "Scarpe", "black", "#383834", "flats", 64, 2, "all", 2],
     [
-      "Borsa quotidiana",
-      "Accessori",
+      "Black ballet flats",
+      "Shoes",
+      "black",
+      "#383834",
+      "flats",
+      64,
+      2,
+      "all",
+      2,
+    ],
+    [
+      "Everyday shoulder bag",
+      "Accessories",
       "brown",
       "#8e6548",
       "bag",
@@ -136,8 +177,8 @@ export function seedWardrobe() {
       "all",
       2,
     ],
-    ["Foulard seta", "Accessori", "rust", "#b7866b", "scarf", 75, 1, "all", 2],
-    ["T-shirt bianca", "Top", "white", "#f3efe4", "tee", 9, 18, "summer", 1],
+    ["Silk scarf", "Accessories", "rust", "#b7866b", "scarf", 75, 1, "all", 2],
+    ["White cotton tee", "Tops", "white", "#f3efe4", "tee", 9, 18, "summer", 1],
   ];
   return data.map((a, i) => ({
     id: `demo-${i}`,
@@ -166,19 +207,19 @@ export function recommend(
   requiredId = null,
 ) {
   const available = items.filter((i) => i.available !== false),
-    tops = available.filter((i) => i.category === "Top"),
+    tops = available.filter((i) => i.category === "Tops"),
     bottoms = available.filter((i) =>
-      ["Pantaloni", "Gonne"].includes(i.category),
+      ["Trousers", "Skirts"].includes(i.category),
     ),
-    dresses = available.filter((i) => i.category === "Abiti"),
-    shoes = available.filter((i) => i.category === "Scarpe");
+    dresses = available.filter((i) => i.category === "Dresses"),
+    shoes = available.filter((i) => i.category === "Shoes");
   if (((!tops.length || !bottoms.length) && !dresses.length) || !shoes.length)
     return [];
   const mood = checkin.mood || "calm",
     formality =
-      checkin.occasion === "Lavoro / studio"
+      checkin.occasion === "Work / campus"
         ? 2
-        : checkin.occasion === "Un’occasione speciale"
+        : checkin.occasion === "An occasion"
           ? 3
           : 1,
     preferences = {};
@@ -214,8 +255,8 @@ export function recommend(
     bs = sort(bottoms),
     ds = sort(dresses),
     ss = sort(shoes),
-    outer = sort(available.filter((i) => i.category === "Capispalla")),
-    access = sort(available.filter((i) => i.category === "Accessori"));
+    outer = sort(available.filter((i) => i.category === "Layers")),
+    access = sort(available.filter((i) => i.category === "Accessories"));
   let candidates = [];
   for (const top of ts)
     for (const bottom of bs)
@@ -228,7 +269,7 @@ export function recommend(
         available.some(
           (i) =>
             i.id === requiredId &&
-            ["Capispalla", "Accessori"].includes(i.category),
+            ["Layers", "Accessories"].includes(i.category),
         ),
     );
   candidates = candidates
@@ -272,9 +313,9 @@ export function recommend(
       ...c,
       id: c.signature,
       title: [
-        "Il tuo equilibrio",
-        "Un’altra prospettiva",
-        "Un piccolo cambio di ritmo",
+        "Your everyday anchor",
+        "A different perspective",
+        "A change of pace",
       ][result.length],
       palette: [...new Set(c.items.map((i) => i.hex))].slice(0, 5),
       reason:
@@ -289,7 +330,7 @@ export function rmssd(a) {
     a.some((n) => !Number.isFinite(n) || n < 300 || n > 2000)
   )
     throw new Error(
-      "Inserisci almeno 20 intervalli RR validi, in millisecondi (300–2000).",
+      "Enter at least 20 valid RR intervals in milliseconds (300–2000).",
     );
   return Math.sqrt(
     a.slice(1).reduce((s, n, i) => s + (n - a[i]) ** 2, 0) / (a.length - 1),

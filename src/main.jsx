@@ -57,6 +57,14 @@ import {
 } from "./domain";
 import { loadState, saveState } from "./storage";
 import { migrate } from "./migration";
+import {
+  useStudy,
+  activity,
+  ReviewerGuide,
+  Welcome,
+  StudyBanner,
+  StudyForm,
+} from "./Readiness";
 import { useLocalAI } from "./useLocalAI";
 import { MODEL_INFO } from "./engine";
 const KEY = "moodrobe-v1",
@@ -66,10 +74,14 @@ const KEY = "moodrobe-v1",
     "A different perspective",
     "The unexpected favourite",
   ];
+const REVIEW_MODE = new URLSearchParams(location.search).get("demo") === "1";
+const DEMO_KEY = "moodrobe-review-session-v1";
+const appStorage = REVIEW_MODE ? sessionStorage : localStorage;
+const appKey = REVIEW_MODE ? DEMO_KEY : KEY;
 const initial = () => ({
   version: 1,
   updatedAt: 0,
-  name: "Benedetta",
+  name: REVIEW_MODE ? "Guest" : "Benedetta",
   items: seedWardrobe(),
   history: [],
   feedback: [],
@@ -83,7 +95,7 @@ const initial = () => ({
 });
 function read() {
   try {
-    const s = JSON.parse(localStorage.getItem(KEY));
+    const s = JSON.parse(appStorage.getItem(appKey));
     return s?.version === 1 && Array.isArray(s.items)
       ? migrate({ ...initial(), ...s })
       : initial();
@@ -116,6 +128,14 @@ function App({ restored }) {
     [collectionTab, setCollectionTab] = useState("saved");
   const ai = useLocalAI(),
     timer = useRef();
+  const study = useStudy();
+  function mark(task) {
+    activity(task);
+    if (REVIEW_MODE)
+      update((p) => ({
+        reviewProgress: { ...p.reviewProgress, [task]: true },
+      }));
+  }
   const context = s.checkin || {
     mood: "calm",
     energy: 30,
@@ -140,7 +160,12 @@ function App({ restored }) {
   );
   useEffect(() => {
     let current = true;
-    saveState(s)
+    (REVIEW_MODE
+      ? Promise.resolve().then(() =>
+          sessionStorage.setItem(DEMO_KEY, JSON.stringify(s)),
+        )
+      : saveState(s)
+    )
       .then(() => {
         if (current) setStoreError(false);
       })
@@ -158,6 +183,13 @@ function App({ restored }) {
   useEffect(() => {
     ai.clear();
   }, [catalogSignature]);
+  useEffect(() => {
+    if (ai.status === "ready") mark("neural");
+  }, [ai.status]);
+  useEffect(() => {
+    if (new URLSearchParams(location.search).get("study") === "1")
+      setModal({ type: "study" });
+  }, []);
   function update(v) {
     setS((p) => {
       const next = {
@@ -166,7 +198,7 @@ function App({ restored }) {
         updatedAt: Math.max(Date.now(), (p.updatedAt || 0) + 1),
       };
       try {
-        localStorage.setItem(KEY, JSON.stringify(next));
+        appStorage.setItem(appKey, JSON.stringify(next));
       } catch {}
       return next;
     });
@@ -177,6 +209,7 @@ function App({ restored }) {
     timer.current = setTimeout(() => setToast(""), 5000);
   }
   function go(p) {
+    if (p === "lab") mark("lab");
     setPage(p);
     setModal(null);
   }
@@ -227,6 +260,7 @@ function App({ restored }) {
     );
   }
   function wear(look) {
+    mark("wear");
     const now = new Date().toISOString();
     update((p) => ({
       items: p.items.map((i) =>
@@ -277,6 +311,7 @@ function App({ restored }) {
         },
       ],
     }));
+    mark("save");
     notify("Saved to your edits.");
   }
   async function getWeather() {
@@ -446,6 +481,9 @@ function App({ restored }) {
             </span>
           </div>
           <div>
+            <a className="review-entry text-link" href="/review.html">
+              Project brief <ArrowUpRight size={14} />
+            </a>
             <button className="weather" onClick={getWeather}>
               <CloudSun size={18} />
               {s.checkin?.temp ?? weather.temp}°
@@ -461,6 +499,37 @@ function App({ restored }) {
           </div>
         </header>
         <main id="main">
+          {REVIEW_MODE ? (
+            <ReviewerGuide
+              progress={s.reviewProgress || {}}
+              study={study}
+              openStudy={() => setModal({ type: "study" })}
+              exit={() => location.assign("/")}
+              action={(task) => {
+                if (task === "checkin") {
+                  go("today");
+                  setModal({ type: "checkin" });
+                } else if (task === "neural") {
+                  go("today");
+                  run();
+                } else if (task === "save" || task === "wear") {
+                  go("today");
+                  if (looks[0]) setModal({ type: "look", look: looks[0] });
+                  else setModal({ type: "add" });
+                } else go("lab");
+              }}
+            />
+          ) : (
+            !s.welcomed && (
+              <Welcome dismiss={() => update({ welcomed: true })} />
+            )
+          )}
+          <StudyBanner study={study} open={() => setModal({ type: "study" })} />
+          {study.error && (
+            <p role="alert" className="error">
+              {study.error}
+            </p>
+          )}
           {storeError && (
             <div role="alert" className="alert">
               Changes could not be saved. Export a backup from your profile
@@ -1134,6 +1203,7 @@ function App({ restored }) {
               context={context}
               initialMood={modal.mood}
               onSave={(c) => {
+                mark("checkin");
                 update({ checkin: c });
                 ai.clear();
                 setModal(null);
@@ -1159,6 +1229,20 @@ function App({ restored }) {
               save={() => save(modal.look)}
               plan={() => setModal({ type: "plan", look: modal.look })}
               improve={() => setModal({ type: "improve", look: modal.look })}
+            />
+          ) : modal.type === "study" ? (
+            <StudyForm
+              study={study}
+              condition={
+                REVIEW_MODE || s.items.every((i) => i.demo)
+                  ? "sample"
+                  : s.items.some((i) => i.demo)
+                    ? "mixed"
+                    : "personal"
+              }
+              download={download}
+              close={() => setModal(null)}
+              notify={notify}
             />
           ) : modal.type === "settings" ? (
             <Settings
@@ -1309,9 +1393,11 @@ function App({ restored }) {
               <button
                 className="button danger full"
                 onClick={() => {
-                  if (modal.type === "reset")
+                  if (modal.type === "reset") {
+                    if (REVIEW_MODE) study.cancel();
+                    else study.erase();
                     update({ ...initial(), items: [], welcomed: true });
-                  else {
+                  } else {
                     const ids =
                       modal.type === "clear-demo"
                         ? s.items.filter((i) => i.demo).map((i) => i.id)
@@ -2689,6 +2775,30 @@ function Lab({ ai, learned, s, run, go, notify, update }) {
           Run it with my wardrobe <ArrowUpRight size={18} />
         </button>
       </section>
+      <section className="application-study-callout">
+        <span className="mono">A USABILITY STUDY, READY TO RUN</span>
+        <h2>Collect observations before making claims.</h2>
+        <p>
+          A separate five-task usability workflow records only consented
+          completion, cumulative timing and participant answers. No participant
+          sessions have been conducted by the developer.
+        </p>
+        <div className="action-row">
+          <a className="button black" href="/?demo=1&study=1">
+            Try the usability session <ArrowUpRight size={16} />
+          </a>
+          <a className="button outline" href="/research.html">
+            Open the local results analyser <ArrowUpRight size={16} />
+          </a>
+          <a
+            className="text-link"
+            href="/application/usability-protocol.md"
+            download
+          >
+            Download protocol
+          </a>
+        </div>
+      </section>
       <section className="pilot-section">
         <span className="mono">A QUESTION BEFORE A CLAIM</span>
         <h2>Would you actually wear it?</h2>
@@ -2863,7 +2973,7 @@ function Lab({ ai, learned, s, run, go, notify, update }) {
     </>
   );
 }
-const db = await loadState(),
+const db = REVIEW_MODE ? null : await loadState(),
   local = read(),
   restored =
     db && (!local.updatedAt || db.updatedAt >= local.updatedAt)

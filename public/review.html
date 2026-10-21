@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Moodrobe project brief: a working local AI wardrobe prototype, an inspectable recommendation model and a usability study prepared for real participants."
+    />
+    <title>Moodrobe / Project brief</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/application/application.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <a class="brand" href="/review.html">moodrobe<b>.</b></a>
+        <nav aria-label="Reviewer navigation">
+          <a href="#evidence">Evidence</a><a href="#walkthrough">Walkthrough</a
+          ><a href="/?demo=1&tour=1">Try the demo ↗</a>
+        </nav>
+      </header>
+      <main>
+        <section class="hero">
+          <span class="kicker">PROJECT BRIEF / WORKING RESEARCH PROTOTYPE</span>
+          <h1>A wardrobe that starts<br />with how you feel.</h1>
+          <p>
+            Moodrobe explores whether a short self-reported check-in and a
+            clearer view of an existing wardrobe can make choosing an outfit
+            easier - and help people rediscover clothes they already own.
+          </p>
+          <span class="badge"
+            >Working software · local neural inference · user validation
+            pending</span
+          >
+          <div class="actions">
+            <a class="button" href="/?demo=1&tour=1"
+              >Try the guided sample demo ↗</a
+            ><a
+              class="button secondary"
+              href="/application/moodrobe-case-study.pdf"
+              download
+              >Download the two-page case study ↓</a
+            ><a href="#walkthrough">Watch in 90 seconds</a>
+          </div>
+          <p class="note" style="margin-top: 20px">
+            No account is needed inside the application. This hosted preview
+            currently retains its private access settings; a shared document or
+            video is independently reviewable. The demo uses a separate sample
+            session and does not alter the owner's wardrobe.
+          </p>
+        </section>
+        <section class="section split">
+          <div>
+            <span class="kicker">THE PROBLEM</span>
+            <h2>More clothes do not always mean an easier choice.</h2>
+          </div>
+          <div>
+            <p>
+              The problem hypothesis is a gap between what a person owns, what
+              they can remember and combine, and what feels right for their day.
+              Moodrobe narrows the choice to a few explained combinations from
+              available, owned pieces.
+            </p>
+            <p>
+              This product interpretation is motivated by the case study and
+              literature. It is not a finding from interviews or a participant
+              study completed for this release.
+            </p>
+          </div>
+        </section>
+        <section class="section">
+          <span class="kicker">TRY IT WITHOUT PREPARATION</span>
+          <h2>Five minutes. Five things to inspect.</h2>
+          <div class="steps">
+            <article>
+              <span class="kicker">01 / CONTEXT</span>
+              <h3>Choose your day.</h3>
+              <p>
+                Set a mood, occasion and temperature. Add a short brief in your
+                own words.
+              </p>
+            </article>
+            <article>
+              <span class="kicker">02 / INFERENCE</span>
+              <h3>Run the model.</h3>
+              <p>
+                Generate three neural edits. First use downloads approximately
+                37 MB of model and runtime files.
+              </p>
+            </article>
+            <article>
+              <span class="kicker">03 / FEEDBACK</span>
+              <h3>Make it yours.</h3>
+              <p>
+                Open a look, inspect the pieces, save it and give a preference.
+                Refresh to train the local preference layer.
+              </p>
+            </article>
+            <article>
+              <span class="kicker">04 / ACCOUNTABILITY</span>
+              <h3>Inspect the boundary.</h3>
+              <p>
+                Log a wear and open “Inside the AI”. The guided checklist
+                includes both actions.
+              </p>
+            </article>
+          </div>
+          <div class="actions">
+            <a class="button" href="/?demo=1&tour=1"
+              >Open a separate sample session ↗</a
+            ><a class="button secondary" href="/">Use my own wardrobe ↗</a>
+          </div>
+          <p class="note" style="margin-top: 18px">
+            Sample photographs are AI-generated, unbranded demonstration assets.
+            The product also supports local personal photographs. It composes
+            garment images; it does not generate a virtual try-on.
+          </p>
+        </section>
+        <section id="walkthrough" class="section">
+          <span class="kicker">A SHORT, REPRODUCIBLE WALKTHROUGH</span>
+          <h2>Watch the actual product.</h2>
+          <div class="media">
+            <video
+              controls
+              preload="none"
+              poster="/application/demo-poster.png"
+              aria-label="Ninety-second product walkthrough"
+            >
+              <source
+                src="/application/moodrobe-demo-90s.mp4"
+                type="video/mp4"
+              />
+              <track
+                src="/application/demo.vtt"
+                kind="captions"
+                srclang="en"
+                label="English"
+              />
+              Your browser does not support this video. Download the MP4 below.
+            </video>
+            <p>
+              Silent screen recording of the real application, with English
+              captions. No participant session or user-study result is
+              portrayed.
+              <a href="/application/demo-transcript.md">Read the transcript</a>
+              ·
+              <a href="/application/moodrobe-demo-90s.mp4" download
+                >Download MP4</a
+              >
+            </p>
+          </div>
+        </section>
+        <section class="section">
+          <span class="kicker">HOW IT WORKS</span>
+          <h2>A hybrid recommender you can inspect.</h2>
+          <div class="cards">
+            <article>
+              <span class="kicker">PRETRAINED ENCODER</span>
+              <h3>Context as vectors.</h3>
+              <p>
+                A quantised all-MiniLM-L6-v2 sentence encoder represents the
+                brief and textual garment metadata in 384 dimensions. Inference
+                runs on-device through ONNX Runtime in a Web Worker.
+              </p>
+              <a href="https://huggingface.co/Xenova/all-MiniLM-L6-v2"
+                >Source model card ↗</a
+              >
+            </article>
+            <article>
+              <span class="kicker">LOCAL PREFERENCE HEAD</span>
+              <h3>Choices as examples.</h3>
+              <p>
+                A regularised logistic model learns from accepted and rejected
+                outfit vectors. No examples means a semantic cold start. A few
+                votes do not establish accurate personalisation.
+              </p>
+              <a href="/?view=lab&demo=1">Inspect the model explanation ↗</a>
+            </article>
+            <article>
+              <span class="kicker">STRUCTURAL CONSTRAINTS</span>
+              <h3>Owned pieces only.</h3>
+              <p>
+                Rules assemble complete outfits and control availability and
+                layering. Ranking combines neural similarity, learned preference
+                and small reuse/occasion terms. Rule-only starter edits are
+                labelled separately.
+              </p>
+              <a href="/?demo=1&tour=1">Inspect an outfit ↗</a>
+            </article>
+          </div>
+        </section>
+        <section class="section" id="evidence">
+          <span class="kicker">EVIDENCE, SEPARATED FROM AMBITION</span>
+          <h2>What has actually been demonstrated?</h2>
+          <div class="status-list">
+            <div>
+              <small>IMPLEMENTED</small><strong>Working daily flow</strong>
+              <p>
+                Wardrobe photographs and descriptions, self-report, local neural
+                ranking, preference feedback, saved edits, planning, wear diary
+                and rediscovery.
+              </p>
+            </div>
+            <div>
+              <small>ENGINEERING CHECKS</small
+              ><strong>Reproducible verification</strong>
+              <p>
+                Automated tests cover real model loading and feedback training,
+                owned-outfit constraints, local persistence, data migration,
+                media cleanup, reviewer-session isolation and consented
+                usability exports. See the downloadable verification report for
+                the exact release results.
+              </p>
+            </div>
+            <div>
+              <small>ENGINEERING OBSERVATION</small
+              ><strong>Brief sensitivity</strong>
+              <p>
+                A production smoke test produced different leading edits for
+                contrasting formal and casual briefs with the same sample
+                wardrobe. This confirms execution and input sensitivity, not
+                clothing quality or mood benefit.
+              </p>
+            </div>
+            <div>
+              <small class="pending">NOT YET COLLECTED</small
+              ><strong>Participant evidence</strong>
+              <p>
+                No recruited usability sessions or controlled
+                product-effectiveness study has been completed for this release.
+                The protocol, recording workflow and local results analyser are
+                prepared; results must come from real participants.
+              </p>
+            </div>
+            <div>
+              <small class="pending">NOT IMPLEMENTED</small
+              ><strong>Biometric inference</strong>
+              <p>
+                Face, voice and heartbeat are not used to infer emotion. The
+                optional local signal tools do not enter the recommendation
+                model. Clothing photographs are displayed, not analysed.
+              </p>
+            </div>
+          </div>
+          <div class="actions">
+            <a
+              class="button secondary"
+              href="/application/verification.md"
+              download
+              >Download engineering verification ↓</a
+            ><a
+              class="button secondary"
+              href="/application/usability-protocol.md"
+              download
+              >Download usability protocol ↓</a
+            >
+          </div>
+        </section>
+        <section class="section split">
+          <div>
+            <span class="kicker">PRODUCT DECISIONS</span>
+            <h2>Small choices with consequences.</h2>
+          </div>
+          <div>
+            <h3>Self-report before biometric inference.</h3>
+            <p>
+              The person remains the source of their mood. An unvalidated
+              classifier is not presented as a scientific breakthrough.
+            </p>
+            <h3>Local processing before cloud accounts.</h3>
+            <p>
+              Photos, descriptions and preference examples stay in the browser.
+              Backups are portable; shared browser profiles are not separate
+              accounts.
+            </p>
+            <h3>Reuse before shopping.</h3>
+            <p>
+              The main flow recommends owned clothes and surfaces underused
+              pieces. Purchase-related editorial advice appears only on explicit
+              request.
+            </p>
+            <h3>Testing before stronger claims.</h3>
+            <p>
+              Software checks and usability observations answer different
+              questions. Neither establishes a causal improvement in wellbeing.
+            </p>
+          </div>
+        </section>
+        <section class="section">
+          <div class="panel">
+            <span class="kicker">THE NEXT REAL-WORLD STEP</span>
+            <h2>A small usability round, then a decision.</h2>
+            <p>
+              Recruit 5–8 consenting adults for an initial usability round,
+              using real wardrobes where feasible. Observe task completion,
+              confusion and whether a person would actually wear a suggestion.
+              Treat observations as design feedback, not a statistically
+              conclusive validation.
+            </p>
+            <p>
+              The separate, longer mood-versus-control pilot proposed in the
+              case study remains future work. Its proposed thresholds are
+              hypotheses to test, not results already achieved.
+            </p>
+            <div class="actions">
+              <a class="button" href="/?demo=1&study=1"
+                >Try the consented test flow ↗</a
+              ><a class="button secondary" href="/research.html"
+                >Open the local results analyser ↗</a
+              >
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <span class="kicker">STARTING POINTS FOR THE RESEARCH</span>
+          <h2>Research motivates the question.</h2>
+          <ul class="evidence-list">
+            <li>
+              <a href="https://doi.org/10.1037/0022-3514.79.6.995"
+                >Iyengar & Lepper (2000), choice and decision difficulty.</a
+              >
+              Effects depend on context.
+            </li>
+            <li>
+              <a href="https://doi.org/10.1016/j.jesp.2012.02.008"
+                >Adam & Galinsky (2012), enclothed cognition.</a
+              >
+              Not evidence that Moodrobe works.
+            </li>
+            <li>
+              <a href="https://doi.org/10.1177/01461672231182478"
+                >Horton, Adam & Galinsky, critical reassessment of the
+                evidence.</a
+              >
+            </li>
+            <li>
+              <a href="https://arxiv.org/abs/1908.10084"
+                >Reimers & Gurevych (2019), Sentence-BERT.</a
+              >
+              Foundation for semantic sentence representations.
+            </li>
+          </ul>
+        </section>
+      </main>
+      <footer>
+        Working prototype and prepared usability workflow. No participant
+        results, accuracy figures or wellbeing outcomes have been invented.
+        Access settings remain private until the owner chooses otherwise.
+      </footer>
+    </div>
+  </body>
+</html>

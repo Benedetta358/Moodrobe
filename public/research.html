@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Moodrobe / Local usability results</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/application/application.css" />
+    <script type="module" src="/application/research.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <a class="brand" href="/review.html">moodrobe<b>.</b></a>
+        <nav aria-label="Research navigation">
+          <a href="/review.html">Project brief</a
+          ><a href="/?demo=1&study=1">Test flow ↗</a>
+        </nav>
+      </header>
+      <main>
+        <section class="hero">
+          <span class="kicker">LOCAL RESEARCH WORKSPACE / NO UPLOADS</span>
+          <h1>Observations first.<br />Claims later.</h1>
+          <p>
+            Import consented usability-session JSON files to inspect task
+            completion and participant answers. Files are processed in this
+            page's memory only. Reloading clears the analysis; the source files
+            remain yours.
+          </p>
+          <div class="warning">
+            This dashboard summarises sessions, not verified unique people.
+            Sample, mixed and personal wardrobes are kept separate. It does not
+            calculate product accuracy, causal effects or statistical
+            significance.
+          </div>
+          <label class="upload"
+            >Choose exported session files<input
+              id="files"
+              type="file"
+              multiple
+              accept="application/json,.json"
+            /><small
+              >Accepts individual sessions or the app's batch export. No photos,
+              mood text, embeddings or contact details are required. Repeated
+              session IDs are deduplicated.</small
+            ></label
+          >
+          <p id="status" role="status" class="note">
+            No external sessions imported. No user-study results are available.
+          </p>
+          <div class="actions">
+            <button id="export" class="button" disabled>
+              Export summary CSV ↓</button
+            ><button id="clear" class="button secondary" disabled>
+              Clear this analysis</button
+            ><a href="/application/usability-protocol.md" download
+              >Download protocol</a
+            >
+          </div>
+        </section>
+        <section class="section" id="results" hidden>
+          <span class="kicker">DESCRIPTIVE OBSERVATIONS ONLY</span>
+          <h2>What was actually recorded?</h2>
+          <div id="metrics" class="metrics"></div>
+          <p id="codes" class="note"></p>
+          <div class="table-scroll">
+            <table>
+              <caption class="visually-hidden">
+                Task completion by wardrobe condition
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Task</th>
+                  <th scope="col">Sample</th>
+                  <th scope="col">Mixed</th>
+                  <th scope="col">Personal</th>
+                </tr>
+              </thead>
+              <tbody id="tasks"></tbody>
+            </table>
+          </div>
+          <p class="note">
+            Task timing is elapsed time since the session started, not isolated
+            time spent on an individual task. Incomplete tasks are not imputed.
+            Ease is a self-report on a 1–5 scale, not a validated satisfaction
+            instrument.
+          </p>
+          <h3 style="margin: 30px 0 15px">Participant observations</h3>
+          <div id="observations"></div>
+        </section>
+        <section id="empty" class="empty-state">
+          No results have been generated or preloaded. Start with a real,
+          consented usability session.
+        </section>
+      </main>
+      <footer>
+        Keep source files private. Participants choose whether to share them.
+        This analyser does not contact a research server, identify participants
+        or establish effectiveness.
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 {
   "name": "moodrobe",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,8 +9,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --test tests/*.test.js",
     "test:e2e": "playwright test",
-    "predev": "node scripts/prepare-runtime.mjs",
-    "prebuild": "node scripts/prepare-runtime.mjs"
+    "predev": "node scripts/prepare-runtime.mjs && node scripts/build-research.mjs",
+    "prebuild": "node scripts/prepare-runtime.mjs && node scripts/build-research.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.0",

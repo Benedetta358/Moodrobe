@@ -1,0 +1,32 @@
+WEBVTT
+
+00:00:00.058 --> 00:00:09.079
+Moodrobe / Engineering walkthrough with sample data. User validation is pending.
+
+00:00:09.079 --> 00:00:15.097
+A separate sample session lets reviewers try the product without changing a personal wardrobe.
+
+00:00:15.097 --> 00:00:23.042
+Mood is self-reported. Set the occasion and context; no emotion diagnosis is claimed.
+
+00:00:23.042 --> 00:00:24.384
+A pretrained sentence encoder ranks combinations from available wardrobe pieces, locally in the browser.
+
+00:00:24.384 --> 00:00:43.049
+These are real neural recommendations. Photos illustrate the pieces; garment descriptions are the model input.
+
+00:00:43.049 --> 00:00:52.069
+Inspect the exact garments, save a look and record preference feedback.
+
+00:00:52.069 --> 00:01:02.043
+Only a recorded wear creates a diary event. Sample activity is not evidence from real participants.
+
+00:01:02.043 --> 00:01:42.004
+The Lab explains the hybrid model, local learning, attribution and limitations.
+
+00:01:42.004 --> 00:01:42.033
+A consented usability protocol and local results analyser are ready. No results have been preloaded.
+
+00:01:42.033 --> 00:01:30.000
+Review the working demo, two-page case study and protocol. Next: collect real observations and iterate.
+

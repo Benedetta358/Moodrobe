@@ -81,3 +81,13 @@ Not implemented: facial-emotion inference, wearable integration, voice-prosody i
 - `public/images/`: generated sample imagery and generation provenance.
 - `tests/`: meaningful engine, migration, persistence, media-lifecycle, UI, accessibility and **real neural inference** tests.
 - `docs/PRESENTATION.md`: recruiter demo guidance with accurate contribution statements.
+
+## Application review package (v2.1)
+
+Start at `/review.html`: a project brief, two-page PDF and captioned 90-second recording. `/?demo=1` uses a separate **sessionStorage** sample wardrobe and bypasses personal IndexedDB. It does not replace personal wardrobe data. Close the tab to end the sample session.
+
+The optional usability flow (`/?demo=1&study=1`) requires adult confirmation and explicit consent. It records real completion events and cumulative elapsed times, not simulated outcomes. Records stay in separate localStorage (`moodrobe-usability-v1`), outside wardrobe backups. Export/delete them in the session dialog. The normal profile reset also deletes local usability data; sample reset only cancels an unfinished session. Files already exported require separate deletion.
+
+`/research.html` analyses manually imported JSON locally in memory, separates wardrobe conditions, deduplicates session IDs and flags repeated codes. It starts empty. Session counts are not verified participant counts. No participant evidence is claimed. Follow `docs/USABILITY_PROTOCOL.md` and populate `docs/DECISION_LOG.md` only after actual observations.
+
+Public downloadable materials are in `public/application/`. The hosting audience remains private; configure access before sending a live link to external reviewers. The PDF and MP4 can be shared independently.

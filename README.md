@@ -17,7 +17,9 @@ npm run preview
 
 The browser tests start/reuse Vite on port 5173. They use installed Chrome on macOS or Playwright Chromium elsewhere (`npx playwright install chromium`). `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select a different executable.
 
-## Vercel deployment
+## Netlify and Vercel deployment
+
+The full GitHub, Netlify and Vercel instructions are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). `netlify.toml`, `vercel.json` and `.nvmrc` are included. No external database has to be removed: all persistent product data already lives in the browser. Moving between hosting domains requires the existing manual backup/import flow.
 
 Import this source into your own Git repository, then Vercel → Add New Project. Use the repository root, or set Root Directory to `moodrobe` if this folder is nested. Framework: **Vite**. Build command: **npm run build**. Output: **dist**. No API keys, environment variables, database or paid inference service are required.
 

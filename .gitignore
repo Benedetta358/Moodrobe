@@ -6,3 +6,9 @@ test-results/
 playwright-report/
 
 tmp/
+.env
+.env.*
+!.env.example
+.netlify/
+.vercel/
+*.log
